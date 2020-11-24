@@ -1,0 +1,15 @@
+﻿@using WebsiteBanDienThoai.Models;
+@model List<Loai>
+<link href="~/Content/TrangChuCss.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Danh mục Loại";
+    Layout = "~/Views/LayOut/NguoiDungLayout.cshtml";
+}@*Hiển thị danh mục chủ đề*@
+@foreach (var item in Model)
+{
+    <div id="divBody">
+        <a href="@Url.Action("DienThoaiTheoLoai", "Loai", new { @_MaLoai=item.MaLoai})" class="button button-submit">@item.TenLoai</a>
+    </div>
+    <br />
+    <br />
+}

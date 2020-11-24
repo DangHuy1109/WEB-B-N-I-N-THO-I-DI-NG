@@ -1,0 +1,16 @@
+﻿@using WebsiteBanDienThoai.Models;
+@model List<NhaCungCap>
+<link href="~/Content/TrangChuCss.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Danh mục Nhà cung cấp";
+    Layout = "~/Views/LayOut/NguoiDungLayout.cshtml";
+}
+@*Hiển thị danh mục NCC*@
+@foreach (var item in Model)
+{
+    <div id="divBody">
+        <a href="@Url.Action("SachTheoNCC", "NhaCungCap", new { @_MaNCC=item.MaNCC})" class="button button-submit">@item.TenNCC</a>
+    </div>
+    <br />
+    <br />
+}
