@@ -253,6 +253,10 @@ namespace WebSiteBanSach.Controllers
             ViewBag.KhachHang = (KhachHang)Session["TaiKhoan"];
             return View(lstGioHang);
         }
+        public ActionResult Thongbaohoadon()
+        {
+            return View();
+        }
         #endregion
     }
 }
