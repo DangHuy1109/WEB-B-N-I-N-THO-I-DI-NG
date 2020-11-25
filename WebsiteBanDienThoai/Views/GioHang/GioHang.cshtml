@@ -26,12 +26,19 @@
                         <td id="ChuSo">@string.Format("{0:0,0}", @item._ThanhTien) vnđ</td>
                     </tr>
                 }
+            <tr>
+                <td> </td><td> </td><td> </td><td> </td>
+                <td colspan="6" id="ChuSo">
+                    Tổng tiền: @Html.Action("GioHangTongTien", "GioHang")
+                </td>
+            </tr>
                 <tr>
-                    <td colspan="6" id="ChuSo">
-                        Tổng tiền: @Html.Action("GioHangTongTien", "GioHang")
+                    <td colspan="4" id="TenCot">
+                        @using (Html.BeginForm("SuaGioHang", "GioHang"))
+                        {
+                            <input type="submit" style="background-color:green;color:white;font-size:12pt;cursor:pointer" value="Sửa Giỏ Hàng" />
+                        }
                     </td>
-                </tr>
-                <tr>
                     <td colspan="6" id="TenCot">
                         @using (Html.BeginForm("DatHang", "GioHang"))
                         {

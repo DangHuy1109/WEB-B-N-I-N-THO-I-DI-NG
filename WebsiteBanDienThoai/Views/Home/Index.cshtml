@@ -30,7 +30,7 @@
                                 <span id="Gia">@string.Format("{0:0,0}", @item.GiaBan) đ</span>
                             </div>
                             <div>
-                                @using (Html.BeginForm(new { @__MaDienThoai = item.MaDienThoai, @strURL = Request.Url.ToString() }))
+                                @using (Html.BeginForm("ThemGioHang", "GioHang", new { @__MaDienThoai = item.MaDienThoai, @strURL = Request.Url.ToString() }))
                                 {
                                     <input type="submit" style="cursor:pointer" value="Mua ngay &#xf07a;" id="btnGioHang" class="btn btn-primary">
                                 }
@@ -207,7 +207,7 @@
                             </div>
                         </div>
                         <div class="author">
-                            <span> Sơn Tùng MTP</span>
+                            <span> Hoài Bảo </span>
                         </div>
                     </div>
                     <div class="item item-over ">
