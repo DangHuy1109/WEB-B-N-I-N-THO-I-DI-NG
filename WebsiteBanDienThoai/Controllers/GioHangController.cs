@@ -236,7 +236,7 @@ namespace WebSiteBanSach.Controllers
             }
             db.SaveChanges();
             Session["GioHang"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ThongBao", "GioHang");
         }
 
         public ActionResult HoaDon()
@@ -253,7 +253,7 @@ namespace WebSiteBanSach.Controllers
             ViewBag.KhachHang = (KhachHang)Session["TaiKhoan"];
             return View(lstGioHang);
         }
-        public ActionResult Thongbaohoadon()
+        public ActionResult ThongBao()
         {
             return View();
         }
