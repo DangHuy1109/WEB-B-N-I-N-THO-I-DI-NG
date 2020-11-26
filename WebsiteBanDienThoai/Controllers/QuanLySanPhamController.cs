@@ -152,8 +152,6 @@ namespace WebsiteBanDienThoai.Controllers
             return View(dienThoai);
         }
 
-        [HttpGet]
-        //Xóa
         public ActionResult Xoa(int _MaDienThoai)
         {
             DienThoai dienThoai = db.DienThoais.SingleOrDefault(n => n.MaDienThoai == _MaDienThoai);
@@ -170,6 +168,19 @@ namespace WebsiteBanDienThoai.Controllers
         public ActionResult XacNhanXoa(int _MaDienThoai)
         {
             DienThoai dienThoai = db.DienThoais.SingleOrDefault(n => n.MaDienThoai == _MaDienThoai);
+            List<ChiTietDonHang> lstChiTietDonHang = db.ChiTietDonHangs.Where(n => n.MaDienThoai == _MaDienThoai).ToList();
+            if ((dienThoai == null) || (lstChiTietDonHang.Count > 0))
+            {
+                if (dienThoai == null)
+                {
+                    Response.StatusCode = 404;
+                    return null;
+                }
+                if (lstChiTietDonHang.Count > 0)
+                {
+                    return View(dienThoai);
+                }
+            }
             db.DienThoais.Remove(dienThoai);
             db.SaveChanges();
 
@@ -181,7 +192,7 @@ namespace WebsiteBanDienThoai.Controllers
                 {
                     Email = kh.Email,
                     Time = DateTime.Now,
-                    Message = $"Quản Trị Viên {kh.HoTen} đã vừa XÓA điện thoại  {dienThoai.TenDienThoai } vào lúc {DateTime.Now}"
+                    Message = $"Quản Trị Viên {kh.HoTen} đã vừa XÓA điện thoại  {dienThoai.TenDienThoai} vào lúc {DateTime.Now}"
                 });
 
                 db.SaveChanges();

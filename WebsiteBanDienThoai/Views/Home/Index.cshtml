@@ -20,22 +20,27 @@
                     @foreach (var item in Model)
                     {
                         i++;
-                        <div id="SanPham">
-                            @*Lấy hình ảnh bìa làm liên kết tới trang xem chi tiết*@
-                            <a href="@Url.Action("XemChiTiet", "DienThoai", new { @_MaDienThoai = item.MaDienThoai })">
-                                <div id="AnhBia"><img src="@Url.Content("~/HinhAnhSP/"+item.AnhBia)" width="190" height="190"></div>
-                            </a>
-                            <div id="Gia">
-                                <span id="TenDT">@item.TenDienThoai</span><br />
-                                <span id="Gia">@string.Format("{0:0,0}", @item.GiaBan) đ</span>
-                            </div>
-                            <div>
-                                @using (Html.BeginForm("ThemGioHang", "GioHang", new { @__MaDienThoai = item.MaDienThoai, @strURL = Request.Url.ToString() }))
-                                {
-                                    <input type="submit" style="cursor:pointer" value="Mua ngay &#xf07a;" id="btnGioHang" class="btn btn-primary">
-                                }
-                            </div>
+                    <div id="SanPham">
+                        @*Lấy hình ảnh bìa làm liên kết tới trang xem chi tiết*@
+                        <a href="@Url.Action("XemChiTiet", "DienThoai", new { @_MaDienThoai = item.MaDienThoai })">
+                            <div id="AnhBia"><img src="@Url.Content("~/HinhAnhSP/"+item.AnhBia)" width="190" height="190"></div>
+                        </a>
+                        <div id="Gia">
+                            <span id="TenDT">@item.TenDienThoai</span><br />
+                            <span id="Gia">@string.Format("{0:0,0}", @item.GiaBan) đ</span>
                         </div>
+                        <div>
+                            @using (Html.BeginForm("ThemGioHang", "GioHang", new { @__MaDienThoai = item.MaDienThoai, @strURL = Request.Url.ToString() }))
+                            {
+                                <input onclick="myFunction()" type="submit" style="cursor:pointer" value="Mua ngay &#xf07a;" id="btnGioHang" class="btn btn-primary">
+                            }
+                        </div>
+                        <script>
+                            function myFunction() {
+                                alert("Đã thêm vào giỏ");
+                            }
+                        </script>
+                    </div>
 
                         if (i == 3)
                         {

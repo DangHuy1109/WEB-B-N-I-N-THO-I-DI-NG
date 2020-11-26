@@ -15,7 +15,7 @@
             foreach (var item in Model)
             {
                 <div class="activity-list-update">
-                    <img src="@Url.Content("~/HinhAnhSP/"+item.AnhBia)" width="500" height="500" alt="Image">
+                    <img src="@Url.Content("~/HinhAnhSP/"+item.AnhBia)" width="250" height="250" alt="Image">
                     @*Nếu tên Điện Thoại dài quá 30 kí tự thì chỉ lấy từ ký tự 0 đến 30*@
                     @if (item.TenDienThoai.Length > 30)
                     {

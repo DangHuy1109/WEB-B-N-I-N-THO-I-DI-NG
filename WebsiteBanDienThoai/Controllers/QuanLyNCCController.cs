@@ -11,7 +11,7 @@ namespace WebSiteBanSach.Controllers
 {
     public class QuanLyNCCController : Controller
     {
-        // GET: QuanLyNCC
+        // GET: QuanLyNXB
         QuanLyBanDienThoaiModel1 db = new QuanLyBanDienThoaiModel1();
         public ActionResult Index(int? _Page)
         {
@@ -37,13 +37,13 @@ namespace WebSiteBanSach.Controllers
         [HttpGet]
         public ActionResult ChinhSua(int _MaNCC)
         {
-            NhaCungCap NhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
-            if (NhaCungCap == null)
+            NhaCungCap nhacungcap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
+            if (nhacungcap == null)
             {
                 Response.StatusCode = 404;
                 return null;
             }
-            return View(NhaCungCap);
+            return View(nhacungcap);
         }
 
         [HttpPost]
@@ -62,47 +62,47 @@ namespace WebSiteBanSach.Controllers
         [HttpGet]
         public ActionResult Xoa(int _MaNCC)
         {
-            NhaCungCap NhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
-            if (NhaCungCap == null)
+            NhaCungCap nhacungcap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
+            if (nhacungcap == null)
             {
                 Response.StatusCode = 404;
                 return null;
             }
-            return View(NhaCungCap);
+            return View(nhacungcap);
         }
 
         [HttpPost, ActionName("Xoa")]
         [ValidateInput(false)]
         public ActionResult XacNhanXoa(int _MaNCC)
         {
-            NhaCungCap NhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
-            List<DienThoai> lstSach = db.DienThoais.Where(n => n.MaNCC == _MaNCC).ToList();
-            if ((NhaCungCap == null) || (lstSach.Count > 0))
+            NhaCungCap nhacungcap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
+            List<DienThoai> lstDienThoai = db.DienThoais.Where(n => n.MaNCC == _MaNCC).ToList();
+            if ((nhacungcap == null) || (lstDienThoai.Count > 0))
             {
-                if (NhaCungCap == null)
+                if (nhacungcap == null)
                 {
                     Response.StatusCode = 404;
                     return null;
                 }
-                if (lstSach.Count > 0)
+                if (lstDienThoai.Count > 0)
                 {
-                    return View(NhaCungCap);
+                    return View(nhacungcap);
                 }
             }
-            db.NhaCungCaps.Remove(NhaCungCap);
+            db.NhaCungCaps.Remove(nhacungcap);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public ActionResult HienThi(int _MaNCC)
         {
-            NhaCungCap NhaCungCap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
-            if (NhaCungCap == null)
+            NhaCungCap nhacungcap = db.NhaCungCaps.SingleOrDefault(n => n.MaNCC == _MaNCC);
+            if (nhacungcap == null)
             {
                 Response.StatusCode = 404;
                 return null;
             }
-            return View(NhaCungCap);
+            return View(nhacungcap);
         }
     }
 }

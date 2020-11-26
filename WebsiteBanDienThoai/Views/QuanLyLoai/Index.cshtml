@@ -8,42 +8,52 @@
     Layout = "~/Views/LayOut/AdminLayout.cshtml";
 }
 
-<p>
-    @Html.ActionLink("Thêm mới Loại", "ThemMoi")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().TenLoai)
-        </th>
-        <th>
-            Sửa
-        </th>
-        <th>
-            Xóa
-        </th>
-    </tr>
+<!DOCTYPE html>
 
-    @foreach (var item in Model)
-    {
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Thêm mới Loại", "ThemMoi")
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenLoai)
-            </td>
-            <td>
-                @Html.ActionLink("Sửa", "ChinhSua", new { @_MaLoai = item.MaLoai })
-            </td>
-            <td>
-                @Html.ActionLink("Xóa", "Xoa", new { @_MaLoai = item.MaLoai })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TenLoai)
+            </th>
+            <th>
+                Sửa
+            </th>
+            <th>
+                Xóa
+            </th>
         </tr>
-    }
 
-</table>
-<div id="divBody">
-    <br />
-    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
-</div>
-<div id="divBody" class="MenuTrang">
-    @Html.PagedListPager(Model, page => Url.Action("Index", "QuanLyLoai", new { _Page = page }))
-</div>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "ChinhSua", new { @_MaLoai = item.MaLoai }) 
+                </td>
+                <td>
+                    @Html.ActionLink("Xóa", "Xoa", new { @_MaLoai = item.MaLoai })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div id="divBody">
+        <br />
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    </div>
+    <div id="divBody" class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("Index", "QuanLyLoai", new { _Page = page }))
+    </div>
+</body>
+</html>

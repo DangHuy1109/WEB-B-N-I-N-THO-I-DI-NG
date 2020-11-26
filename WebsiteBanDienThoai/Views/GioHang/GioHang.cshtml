@@ -8,13 +8,13 @@
 <div class="main-container nav-bg-color">
     <div class="inside-container nav-contain">
         <div id="divGioHang">
-            <table border="1" cellpadding="2" cellspacing="15" width="1000" height="400">
+            <table class="table">
                 <tr>
-                    <td>Tên điện thoại</td>
-                    <td>Ảnh bìa</td>
-                    <td id="TenCot">Đơn giá</td>
-                    <td id="TenCot">Số lượng</td>
-                    <td id="TenCot">Thành tiền</td>
+                    <th>Tên điện thoại</th>
+                    <th>Ảnh bìa</th>
+                    <th id="TenCot">Đơn giá</th>
+                    <th id="TenCot">Số lượng</th>
+                    <th id="TenCot">Thành tiền</th>
                 </tr>
                 @foreach (var item in Model)
                 {
@@ -36,13 +36,13 @@
                     <td colspan="4" id="TenCot">
                         @using (Html.BeginForm("SuaGioHang", "GioHang"))
                         {
-                            <input type="submit" style="background-color:green;color:white;font-size:12pt;cursor:pointer" value="Sửa Giỏ Hàng" />
+                            <input type="submit" class="btn btn-danger" value="Sửa Giỏ Hàng" />
                         }
                     </td>
                     <td colspan="6" id="TenCot">
                         @using (Html.BeginForm("DatHang", "GioHang"))
                         {
-                            <input type="submit" style="background-color:green;color:white;font-size:12pt;cursor:pointer" value="Thanh toán" />
+                        <input type="submit" class="btn btn-success" value="Thanh toán" />
                         }
                     </td>
                 </tr>
