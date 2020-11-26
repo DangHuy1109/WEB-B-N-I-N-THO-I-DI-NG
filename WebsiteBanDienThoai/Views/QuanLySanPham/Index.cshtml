@@ -8,13 +8,13 @@
     Layout = "~/Views/LayOut/AdminLayout.cshtml";
 }
 
-<p>
+<button>
     @Html.ActionLink("Thêm mới Điện Thoại", "ThemMoi")
-</p>
+</button>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First().TenDienThoai)
+            @Html.DisplayNameFor(model => model.First().TenDienThoai) 
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().GiaBan)
