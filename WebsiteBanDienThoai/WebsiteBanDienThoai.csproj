@@ -215,6 +215,7 @@
     <Content Include="blog\recent-post-1.jpg" />
     <Content Include="blog\recent-post-2.jpg" />
     <Content Include="blog\recent-post-3.jpg" />
+    <Content Include="Content\avatar.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\HomeIndex.css" />
