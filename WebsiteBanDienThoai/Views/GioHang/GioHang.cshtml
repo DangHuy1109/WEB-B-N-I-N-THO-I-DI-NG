@@ -32,20 +32,21 @@
                     Tổng tiền: @Html.Action("GioHangTongTien", "GioHang")
                 </td>
             </tr>
-                <tr>
-                    <td colspan="4" id="TenCot">
-                        @using (Html.BeginForm("SuaGioHang", "GioHang"))
-                        {
-                            <input type="submit" class="btn btn-danger" value="Sửa Giỏ Hàng" />
-                        }
-                    </td>
-                    <td colspan="6" id="TenCot">
-                        @using (Html.BeginForm("DatHang", "GioHang"))
-                        {
-                        <input type="submit" class="btn btn-success" value="Thanh toán" />
-                        }
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="4" id="TenCot">
+                    @using (Html.BeginForm("SuaGioHang", "GioHang"))
+                    {
+                        <input type="submit" class="btn btn-danger" value="Sửa Giỏ Hàng" />
+                    }
+                </td>
+              
+                <td colspan="6" id="TenCot">
+                    @using (Html.BeginForm("HoaDon", "GioHang"))
+                    {
+                        <input type="submit" class="btn btn-success" value="Hoá Đơn" />
+                    }
+                </td>
+            </tr>
             </table>
         </div>
     </div>

@@ -173,6 +173,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\MoMoSecurity.cs" />
+    <Compile Include="Common\PaymentRequest.cs" />
     <Compile Include="Controllers\DienThoaiController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

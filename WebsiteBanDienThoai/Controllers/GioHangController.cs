@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using WebsiteBanDienThoai.Common;
 using WebsiteBanDienThoai.Models;
 
 namespace WebSiteBanSach.Controllers
@@ -229,15 +232,63 @@ namespace WebSiteBanSach.Controllers
                 ctdh.MaDienThoai = item._MaDienThoai;
                 ctdh.SoLuong = item._SoLuong;
                 ctdh.DonGia = item._DonGia.ToString();
-                db.ChiTietDonHangs.Add(ctdh);
+
 
                 DienThoai dienthoai = db.DienThoais.SingleOrDefault(n => n.MaDienThoai == item._MaDienThoai);
                 dienthoai.SoLuongTon -= item._SoLuong;
+                db.ChiTietDonHangs.Add(ctdh);
+                db.SaveChanges();
+                Session["GioHang"] = null;
             }
-            db.SaveChanges();
-            Session["GioHang"] = null;
-            return RedirectToAction("ThongBao", "GioHang");
-        }
+
+            //momopay
+            string endpoint = ConfigurationManager.AppSettings["endpoint"].ToString();
+            string partnerCode = ConfigurationManager.AppSettings["partnerCode"].ToString();
+            string accessKey = ConfigurationManager.AppSettings["accessKey"].ToString();
+            string serectkey = ConfigurationManager.AppSettings["serectkey"].ToString();
+            string orderInfo = "DH" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string returnUrl = ConfigurationManager.AppSettings["returnUrl"].ToString();
+            string notifyurl = ConfigurationManager.AppSettings["notifyurl"].ToString();
+
+            string amount = gh.Sum(n => n._ThanhTien).ToString();
+            string orderid = Guid.NewGuid().ToString();
+            string requestId = Guid.NewGuid().ToString();
+            string extraData = "";
+
+            //Before sign HMAC SHA256 signature
+            string rawHash = "partnerCode=" +
+                partnerCode + "&accessKey=" +
+                accessKey + "&requestId=" +
+                requestId + "&amount=" +
+                amount + "&orderId=" +
+                orderid + "&orderInfo=" +
+                orderInfo + "&returnUrl=" +
+                returnUrl + "&notifyUrl=" +
+                notifyurl + "&extraData=" +
+                extraData;
+            MoMoSecurity crypto = new MoMoSecurity();
+            string signature = crypto.signSHA256(rawHash, serectkey);
+            JObject message = new JObject
+            {
+                { "partnerCode", partnerCode },
+                { "accessKey", accessKey },
+                { "requestId", requestId },
+                { "amount", amount },
+                { "orderId", orderid },
+                { "orderInfo", orderInfo },
+                { "returnUrl", returnUrl },
+                { "notifyUrl", notifyurl },
+                { "extraData", extraData },
+                { "requestType", "captureMoMoWallet" },
+                { "signature", signature }
+
+            };
+            string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
+            JObject jmessage = JObject.Parse(responseFromMomo);
+            return Redirect(jmessage.GetValue("payUrl").ToString());
+        //mômopay
+        
+    }
 
         public ActionResult HoaDon()
         {
@@ -257,6 +308,121 @@ namespace WebSiteBanSach.Controllers
         {
             return View();
         }
+        public ActionResult ThanhToan()
+        {
+            List<GioHang> gioHang = Session["Cart"] as List<GioHang>;
+            string endpoint = ConfigurationManager.AppSettings["endpoint"].ToString();
+            string partnerCode = ConfigurationManager.AppSettings["partnerCode"].ToString();
+            string accessKey = ConfigurationManager.AppSettings["accessKey"].ToString();
+            string serectkey = ConfigurationManager.AppSettings["serectkey"].ToString();
+            string orderInfo = "DH" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string returnUrl = ConfigurationManager.AppSettings["returnUrl"].ToString();
+            string notifyurl = ConfigurationManager.AppSettings["notifyurl"].ToString();
+
+            string amount = gioHang.Sum(n => n._ThanhTien).ToString();
+            string orderid = Guid.NewGuid().ToString();
+            string requestId = Guid.NewGuid().ToString();
+            string extraData = "";
+
+            //before sign HMAC SHA256 signature abc
+            string rawHash = "partnerCode" +
+                partnerCode + "&accessKey=" +
+                accessKey + "&requestId=" +
+                requestId + "&amount=" +
+                amount + "&orderId=" +
+                orderid + "&orderInfo" +
+                orderInfo + "&returnUrl" +
+                returnUrl + "&notifyUrl" +
+                notifyurl + "&extraData" +
+                extraData;
+            MoMoSecurity crypto = new MoMoSecurity();
+            string signature = crypto.signSHA256(rawHash, serectkey);
+            JObject message = new JObject
+            {
+                { "partnerCode" , partnerCode },
+                { "accessKey" , accessKey },
+                { "requestId" , requestId },
+                { "amount" , amount },
+                { "orderId" , orderid },
+                { "orderInfo" , partnerCode },
+                { "returnUrl" , partnerCode },
+                { "notifyUrl" , notifyurl },
+                { "requestType" , "captureMoMoWallet" },
+                { "signature" , signature }
+
+            };
+            string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
+            JObject jmessage = JObject.Parse(responseFromMomo);
+            return Redirect(jmessage.GetValue("payUrl").ToString());
+        }
+        public ActionResult ReturnUrl()
+        {
+            string param = Request.QueryString.ToString().Substring(0, Request.QueryString.ToString().IndexOf("signature") - 1);
+            param = Server.UrlDecode(param);
+            string serctkey = ConfigurationManager.AppSettings["serctkey"].ToString();
+            MoMoSecurity crypto = new MoMoSecurity();
+            string signature = crypto.signSHA256(param, serctkey);
+            if (signature != Request["signature"].ToString())
+            {
+                ViewBag.message = " Thông tin Request không hợp lệ";
+                return View();
+            }
+            if (!Request.QueryString["errorCode"].Equals("0"))
+            {
+                ViewBag.message = "Thanh toán thất bại";
+            }
+            else
+            {
+                ViewBag.message = "Thanh toán thành công";
+                Session["Cart"] = new List<GioHang>();
+            }
+            return View();
+        }
+        public JsonResult NotifyUrl()
+        {
+            string param = ""; // Request.Form.ToString().Substring(0, Request.Form.ToString().IndexOf("signature") -1);
+            param = "partner_Code=" + Request["partner_code"] +
+                "&access_key=" + Request["access_key"] +
+                "&amount=" + Request["access_key"] +
+                "&order_id=" + Request["order_id"] +
+                "&order_info=" + Request["order_info"] +
+                "&order_type=" + Request["order_type"] +
+                "&transaction_id=" + Request["transaction_id"] +
+                "&message=" + Request["message"] +
+                "&response_time=" + Request["response_time"] +
+                "&status_code=" + Request["status_code"];
+            param = Server.UrlDecode(param);
+            MoMoSecurity crypto = new MoMoSecurity();
+            string serectkey = ConfigurationManager.AppSettings["serectkey"].ToString();
+            string signature = crypto.signSHA256(param, serectkey);
+            //Không được phép cập nhật trạng thía đơn khi trạng đơn trong databasse khác trạng đang chờ thanh toán
+            //Trang thía đơn kích nút thnah toán - Đang chờ thanh toán(-1)
+            //Trạng thái giao dịch thành công(1)
+            //Trạng thái giao dịch thất bại(0)
+            if (signature != Request["signature"].ToString())
+            {
+                //Kiểm tra đơn hàng của các bạn trong database có khác trạng thái đang chờ thanh toán hay không 
+                //Nếu mà bạn đã cập nhật trạng thái đơn hàng về (1) hoặc 0 rồi thì không cần phải cập nhật nữa
+                //Nếu trạng thái đơn hàng của các bạn đang là chờ thanh toán thì các ạn cập nhật trạng thái = 0 là thất bại ở đây
+
+                //Khi nào thì mới cập nhật trạng thái đơn hàng?
+            }
+            string status_code = Request["status_code"].ToString();
+            if ((status_code != "0"))
+            {
+                //Thất bại - Cập nhật trạng thái đơn hàng
+            }
+            else
+            {
+                //Thành công - Cập nhật trạng thái đơn hàng
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
+
         #endregion
     }
 }

@@ -11,7 +11,7 @@
             <td id="ChuSo">Thông tin Khách hàng :</td>
         </tr>
         <tr>
-            <td id="ChuSo">Họ và Tên :</td>
+            <th id="ChuSo">Họ và Tên :</t>
             <td colspan="5">@ViewBag.KhachHang.HoTen</td>
         </tr>
         <tr>
@@ -67,7 +67,7 @@
             <td colspan="6" id="TenCot">
                 @using (Html.BeginForm("DatHang", "GioHang"))
                 {
-                    <input type="submit" style="background-color:green;color:white;font-size:12pt;cursor:pointer" value="Đặt hàng" />
+                    <input type="submit" class="btn btn-success" value="Thanh toán" />
                 }
             </td>
         </tr>
