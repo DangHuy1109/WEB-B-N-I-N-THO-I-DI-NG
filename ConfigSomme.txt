@@ -1,0 +1,4 @@
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-WebsiteBanDienThoai-20201118025900.mdf;Initial Catalog=aspnet-WebsiteBanDienThoai-20201118025900;Integrated Security=True" providerName="System.Data.SqlClient" />
+    <add name="QuanLyBanDienThoaiModel1" connectionString="workstation id=BanDienThoai.mssql.somee.com;packet size=4096;user id=danghuy110999_SQLLogin_1;pwd=2lqoq252pz;data source=BanDienThoai.mssql.somee.com;persist security info=False;initial catalog=BanDienThoai" providerName="System.Data.SqlClient" />
+  </connectionStrings>
