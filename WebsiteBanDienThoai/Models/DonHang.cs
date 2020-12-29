@@ -17,16 +17,24 @@ namespace WebsiteBanDienThoai.Models
 
         [Key]
         public int MaDonHang { get; set; }
+        [StringLength(50)]
+        public string HoTen { get; set; }
+
+        [StringLength(50)]
+        public string TaiKhoan { get; set; }
 
         public int? DaThanhToan { get; set; }
 
         public int? TinhTrangGiaoHang { get; set; }
+        public int? DuyetDonHang { get; set; }
 
         public DateTime? NgayDat { get; set; }
 
         public DateTime? NgayGiao { get; set; }
 
         public int? MaKH { get; set; }
+
+      
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; }

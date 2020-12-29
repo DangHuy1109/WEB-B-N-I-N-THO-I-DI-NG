@@ -14,7 +14,19 @@
             @Html.DisplayNameFor(model => model.First().MaDonHang)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.First().MaKH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().HoTen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().TaiKhoan)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.First().DaThanhToan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DuyetDonHang)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().TinhTrangGiaoHang)
@@ -26,37 +38,68 @@
             @Html.DisplayNameFor(model => model.First().NgayGiao)
         </th>
         <th>
+            Chi tiết
+        </th>
+        <th>
             Sửa
+        </th>
+        <th>
+            Xóa
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDonHang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaThanhToan)
-            </td>
-            @if (item.TinhTrangGiaoHang == 0)
-            {
-                <td>Chưa xong</td>
-            }
-            else
-            {
-                <td>Hoàn thành</td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayGiao)
-            </td>
-            <td>
-                @Html.ActionLink("Sửa", "ChinhSua", new { @_MaDonHang = item.MaDonHang })
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaDonHang)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaKH)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoTen)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TaiKhoan)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DaThanhToan)
+    </td>
+
+    @if (item.DuyetDonHang == 0)
+    {
+        <td>Không Duyệt</td>
+    }
+    else
+    {
+        <td>Duyệt</td>
+    }
+
+    @if (item.TinhTrangGiaoHang == 0)
+    {
+        <td>Chưa xong</td>
+    }
+    else
+    {
+        <td>Hoàn thành</td>
+    }
+    <td>
+        @Html.DisplayFor(modelItem => item.NgayDat)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NgayGiao)
+    </td>
+    <td>
+        @Html.ActionLink("Chi tiết", "HienThi", new { @_MaDonHang = item.MaDonHang })
+    </td>
+    <td>
+        @Html.ActionLink("Sửa", "ChinhSua", new { @_MaDonHang = item.MaDonHang })
+    </td>
+    <td>
+        @Html.ActionLink("Xóa", "Xoa", new { @_MaDonHang = item.MaDonHang })
+    </td>
+</tr>
     }
 
 </table>

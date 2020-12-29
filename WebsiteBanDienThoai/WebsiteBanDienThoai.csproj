@@ -583,6 +583,8 @@
     <Content Include="tinymce\js\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\GioHang\ThongBao.cshtml" />
+    <Content Include="Views\QuanLyDonHang\Xoa.cshtml" />
+    <Content Include="Views\QuanLyDonHang\HienThi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

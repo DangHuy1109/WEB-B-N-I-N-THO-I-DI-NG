@@ -45,5 +45,67 @@ namespace WebsiteBanDienThoai.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Xoa(int _MaDonHang)
+        {
+            DonHang donhang = db.DonHangs.SingleOrDefault(n => n.MaDonHang == _MaDonHang);
+            if (donhang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(donhang);
+        }
+
+        [HttpPost, ActionName("Xoa")]
+        [ValidateInput(false)]
+        public ActionResult XacNhanXoa(int _MaDonHang)
+        {
+            DonHang donhang = db.DonHangs.SingleOrDefault(n => n.MaDonHang == _MaDonHang);
+            List<ChiTietDonHang> lstChiTietDonHang = db.ChiTietDonHangs.Where(n => n.MaDonHang == _MaDonHang).ToList();
+            if ((donhang == null) || (lstChiTietDonHang.Count > 0))
+            {
+                if (donhang == null)
+                {
+                    Response.StatusCode = 404;
+                    return null;
+                }
+                if (lstChiTietDonHang.Count > 0)
+                {
+                    return View(donhang);
+                }
+            }
+            db.DonHangs.Remove(donhang);
+            db.SaveChanges();
+
+            KhachHang kh = Session["TaiKhoan"] as KhachHang;
+            if (kh == null) return RedirectToAction("Index", "Home");
+            using (var db = new QuanLyBanDienThoaiModel1())
+            {
+                db.Logs.Add(new Log
+                {
+                    Email = kh.Email,
+                    Time = DateTime.Now,
+                    Message = $"Người Dùng {kh.HoTen} đã vừa XÓA Đơn hàng  {donhang.MaDonHang} vào lúc {DateTime.Now}"
+                });
+
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult HienThi(int _MaDonHang)
+        {
+            DonHang donhang = db.DonHangs.SingleOrDefault(n => n.MaDonHang == _MaDonHang);
+            if (donhang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(donhang);
+        }
+
     }
 }

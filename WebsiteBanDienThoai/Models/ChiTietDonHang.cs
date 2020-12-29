@@ -18,6 +18,11 @@ namespace WebsiteBanDienThoai.Models
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MaDienThoai { get; set; }
+        [StringLength(50)]
+        public string HoTen { get; set; }
+
+        [StringLength(50)]
+        public string TaiKhoan { get; set; }
 
         public int? SoLuong { get; set; }
 

@@ -113,8 +113,9 @@ namespace WebsiteBanDienThoai.Controllers
             {
                 return View(_DienThoai);
             }
-            var FileName = Path.GetFileName(FileUpload.FileName);
-            var DuongDan = Path.Combine(Server.MapPath("~/HinhAnhSP"), FileName);
+            //đoạn này là nó lưu file ảnh
+            var FileName = Path.GetFileName(FileUpload.FileName); // cái này là lấy cái file name
+            var DuongDan = Path.Combine(Server.MapPath("~/HinhAnhSP"), FileName);// còn cái này Path.Combine có nghĩa là vào source code, tìm cái file HinhAnhSP, rồi bỏ vào trong đó.
             if (!System.IO.File.Exists(DuongDan))
             {
                 FileUpload.SaveAs(DuongDan);

@@ -218,8 +218,11 @@ namespace WebSiteBanSach.Controllers
             KhachHang kh = (KhachHang)Session["TaiKhoan"];
             List<GioHang> gh = LayGioHang();
             dh.MaKH = kh.MaKH;
+            dh.HoTen = kh.HoTen;
+            dh.TaiKhoan = kh.TaiKhoan;
             dh.DaThanhToan = Convert.ToInt32(TongTien());
             dh.TinhTrangGiaoHang = 0;
+            dh.DuyetDonHang = 0;
             dh.NgayDat = DateTime.Now;
             dh.NgayGiao = DateTime.Now;
             db.DonHangs.Add(dh);
@@ -418,9 +421,53 @@ namespace WebSiteBanSach.Controllers
             }
             return Json("", JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult DatHangTaiCuaHang()
+        {
+            //Kiểm tra đăng nhập
+            if ((Session["TaiKhoan"] == null) || (Session["TaiKhoan"].ToString() == ""))
+            {
+                return RedirectToAction("DangNhap", "NguoiDung");
+            }
+            //Kiểm tra giỏ hàng
+            if (Session["GioHang"] == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            //thêm đơn hàng
+            DonHang dh = new DonHang();
+            KhachHang kh = (KhachHang)Session["TaiKhoan"];
+            List<GioHang> gh = LayGioHang();
+            dh.MaKH = kh.MaKH;
+            dh.HoTen = kh.HoTen;
+            dh.TaiKhoan = kh.TaiKhoan;
+            dh.DaThanhToan = Convert.ToInt32(TongTien());
+            dh.TinhTrangGiaoHang = 0;
+            dh.DuyetDonHang = 0;
+            dh.NgayDat = DateTime.Now;
+            dh.NgayGiao = DateTime.Now;
+            db.DonHangs.Add(dh);
+            db.SaveChanges();
+            //Thêm chi tiết đơn hàng 
+            foreach (var item in gh)
+            {
+                ChiTietDonHang ctdh = new ChiTietDonHang();
+                ctdh.MaDonHang = dh.MaDonHang;
+                ctdh.MaDienThoai = item._MaDienThoai;
+                ctdh.SoLuong = item._SoLuong;
+                ctdh.DonGia = item._DonGia.ToString();
 
 
-
+                DienThoai dienthoai = db.DienThoais.SingleOrDefault(n => n.MaDienThoai == item._MaDienThoai);
+                dienthoai.SoLuongTon -= item._SoLuong;
+                db.ChiTietDonHangs.Add(ctdh);
+                db.SaveChanges();
+                Session["GioHang"] = null;
+            }
+            db.SaveChanges();
+            Session["GioHang"] = null;
+            return RedirectToAction("ThongBao", "GioHang");
         }
 
         #endregion
