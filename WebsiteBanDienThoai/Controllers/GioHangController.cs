@@ -311,6 +311,10 @@ namespace WebSiteBanSach.Controllers
         {
             return View();
         }
+        public ActionResult Camonquykhach()
+        {
+            return View();
+        }
         public ActionResult ThanhToan()
         {
             List<GioHang> gioHang = Session["Cart"] as List<GioHang>;
@@ -467,7 +471,7 @@ namespace WebSiteBanSach.Controllers
             }
             db.SaveChanges();
             Session["GioHang"] = null;
-            return RedirectToAction("ThongBao", "GioHang");
+            return RedirectToAction("Camonquykhach", "GioHang");
         }
 
         #endregion

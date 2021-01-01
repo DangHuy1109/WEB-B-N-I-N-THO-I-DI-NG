@@ -585,6 +585,7 @@
     <Content Include="Views\GioHang\ThongBao.cshtml" />
     <Content Include="Views\QuanLyDonHang\Xoa.cshtml" />
     <Content Include="Views\QuanLyDonHang\HienThi.cshtml" />
+    <Content Include="Views\GioHang\Camonquykhach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
