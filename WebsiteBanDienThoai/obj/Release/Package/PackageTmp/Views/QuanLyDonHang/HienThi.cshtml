@@ -1,0 +1,47 @@
+﻿@model WebsiteBanDienThoai.Models.DonHang
+@*@model IEnumerable<WebsiteBanDienThoai.Models.DonHang>*@
+@{
+    ViewBag.Title = "Hiển thị Chi Tiết ";
+    Layout = "~/Views/LayOut/AdminLayout.cshtml";
+}
+
+<h2>Thông tin Chi tiết</h2>
+
+<div style="font-size:16px;word-wrap: break-word;">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MaDonHang)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaDonHang)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MaKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaKH)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaiKhoan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaiKhoan)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "ChinhSua", new { @_MaDonHang = Model.MaDonHang }) |
+    @Html.ActionLink("Trở lại Trang Quản lý Đơn Hàng", "Index")
+</p>
