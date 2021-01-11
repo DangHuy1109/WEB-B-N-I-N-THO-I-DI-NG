@@ -2,6 +2,7 @@ use master
 IF exists(select * from sysdatabases where name='test')
 	drop database test
 create database [QuanLyBanDienThoai]
+
 go
 USE [QuanLyBanDienThoai]
 GO
@@ -191,7 +192,7 @@ begin
 	if (select count (*) from inserted, DienThoai where inserted.TenDienThoai = DienThoai.TenDienThoai)>1
 	begin
 		rollback
-		raiserror ('ten dien thoai da co roi',16,1)
+		raiserror ('Điện thoại này đã tồn tại',16,1)
 		end
 	end
 select *from DienThoai
@@ -393,7 +394,7 @@ exec sp_themkhachhang 3,'le van luyen', 'lamhoaibao', 'u7270051', 'mrsimplevn@gm
 
 delete Loai
 
-alter proc sp_xoakhachhang
+create proc sp_xoakhachhang
 							@ma_khachhang smallint
 as
 begin
@@ -408,7 +409,7 @@ begin
 				end
 			commit tran
 		end
-alter proc run_xoakhachhang 
+create proc run_xoakhachhang 
 				@ma_khachhang smallint
 as
 begin
@@ -526,3 +527,164 @@ end
 select * from Loai
 exec sp_XoaLoai 2
 
+create trigger trg_pass
+on KhachHang
+for insert, update
+as
+begin
+	IF EXISTS(SELECT * FROM inserted WHERE MatKhau IS NULL OR MatKhau = '')
+	BEGIN
+		RAISERROR('Mật khẩu không được để trống', 16, 1)
+		ROLLBACK
+	END
+END
+GO
+
+create trigger trg_dienthoai
+on KhachHang
+for insert, update
+as
+begin
+	IF EXISTS(SELECT * FROM inserted WHERE DienThoai IS NULL OR DienThoai = '')
+	BEGIN
+		RAISERROR('Điện thoại không được để trống', 16, 1)
+		ROLLBACK
+	END
+END
+GO
+
+
+
+CREATE TRIGGER trg_Soluong
+ON DienThoai
+FOR INSERT, UPDATE
+AS
+BEGIN
+	IF EXISTS(SELECT * FROM inserted WHERE SoLuongTon > 40)
+	BEGIN
+		RAISERROR('Không được nhập quá 40', 16, 1)
+		ROLLBACK
+	END
+END
+GO
+select * from DienThoai
+
+CREATE TRIGGER trg_giaban
+ON DienThoai
+FOR INSERT, UPDATE
+AS
+BEGIN
+	IF EXISTS(SELECT * FROM inserted WHERE GiaBan < 0)
+	BEGIN
+		RAISERROR('Gía tiền không hợp lệ', 16, 1)
+		ROLLBACK
+	END
+END
+GO
+
+
+
+----- đăng nhập
+CREATE PROC sp_DangNhap
+				@email varchar(10),
+				@matkhau nvarchar(20)
+AS
+BEGIN	
+	SELECT * FROM KhachHang WHERE Email=@email AND MatKhau=@matkhau
+END
+GO
+
+--- xem danh sách tài khoản
+CREATE PROC sp_LietKeTaiKhoan
+AS
+BEGIN
+	SELECT * FROM KhachHang
+END
+GO
+
+
+
+
+exec sp_LietKeTaiKhoan
+select * from KhachHang
+
+
+
+--- quyen tai khoan 1: admin 2 la khach hang
+CREATE TRIGGER trg_quyenkhachhang
+ON KhachHang
+FOR INSERT, UPDATE
+AS
+BEGIN
+	IF EXISTS(SELECT * FROM inserted WHERE Quyen != 1 AND Quyen != 2)
+	BEGIN
+		RAISERROR('Loại tài khoản không hợp lệ', 16, 1)
+		ROLLBACK
+	END
+END
+GO
+
+
+
+
+CREATE PROC sp_TaoTaiKhoan
+				@taikhoan nvarchar(100),
+				@matkhau nvarchar(50),
+				@quyen int
+AS
+BEGIN	
+	DECLARE @makh smallint
+	SET @makh = 1
+	BEGIN TRY
+		BEGIN TRAN
+			SELECT * FROM KhachHang with (updlock)
+			WHILE EXISTS( SELECT * FROM KhachHang WHERE MaKH=@makh)
+				SET @makh = @makh + 1
+			INSERT INTO KhachHang(MaKH, TaiKhoan, MatKhau, Quyen) VALUES(@makh, @taikhoan, @matkhau, @quyen)
+			EXEC('CREATE USER [' + @taikhoan + '] WITHOUT LOGIN')			
+			IF @quyen=1
+			BEGIN
+				EXEC('sp_AddRoleMember QuanLy, [' + @taikhoan + ']')
+			END
+			ELSE IF @quyen =2 
+			BEGIN
+				EXEC('sp_AddRoleMember KhachHang, [' + @taikhoan + ']')
+			END
+			
+			EXEC('GRANT IMPERSONATE ON USER::[' + @taikhoan +']  to Client')
+		COMMIT
+	END TRY		
+	BEGIN CATCH
+		ROLLBACK
+		DECLARE @msg nvarchar(200)
+		SET @msg = ERROR_MESSAGE()
+		RAISERROR(@msg, 16, 1)
+	END CATCH
+END
+GO
+
+
+
+-- xoá tài khoản
+
+CREATE PROC sp_xoataikhoan
+				@makh smallint
+AS
+BEGIN
+	DECLARE @taikhoan nvarchar(20)
+	SELECT @taikhoan = TaiKhoan FROM KhachHang WHERE MaKH=@makh
+	BEGIN TRY
+		BEGIN TRAN
+			DELETE FROM KhachHang WHERE MaKH=@makh
+			EXEC('REVOKE IMPERSONATE ON USER::[' + @taikhoan +'] FROM Client')
+			EXEC('DROP USER [' + @taikhoan + ']')
+		COMMIT
+	END TRY		
+	BEGIN CATCH
+		ROLLBACK
+		DECLARE @msg nvarchar(200)
+		SET @msg = ERROR_MESSAGE()
+		RAISERROR(@msg, 16, 1)
+	END CATCH
+END
+GO

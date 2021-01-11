@@ -27,9 +27,19 @@ namespace WebsiteBanDienThoai.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         public ActionResult ThemMoi(Loai _loai)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            Loai ncl = db.Loais.SingleOrDefault(n => n.TenLoai == _loai.TenLoai);
+            if (ncl != null)
+            {
+                ViewBag.ThongBao = "Tên Loại đã tồn tại";
+                return View();
+            }
             db.Loais.Add(_loai);
             db.SaveChanges();
             return RedirectToAction("Index");

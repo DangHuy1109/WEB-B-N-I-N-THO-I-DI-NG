@@ -150,6 +150,7 @@ namespace WebsiteBanDienThoai.Controllers
                 Response.StatusCode = 404;
                 return null;
             }
+
             return View(dienThoai);
         }
 
@@ -161,6 +162,7 @@ namespace WebsiteBanDienThoai.Controllers
                 Response.StatusCode = 404;
                 return null;
             }
+
             return View(dienThoai);
         }
 

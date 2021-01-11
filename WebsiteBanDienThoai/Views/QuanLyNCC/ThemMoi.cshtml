@@ -10,7 +10,7 @@
 @using (Html.BeginForm("ThemMoi", "QuanLyNCC", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
+    <h1 id="CanhBao">@ViewBag.ThongBao</h1>
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

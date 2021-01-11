@@ -26,9 +26,20 @@ namespace WebSiteBanSach.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
+        //[ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         public ActionResult ThemMoi(NhaCungCap _NhaCungCap)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            NhaCungCap ncc = db.NhaCungCaps.SingleOrDefault(n => n.TenNCC == _NhaCungCap.TenNCC);
+            if (ncc != null)
+            {
+                ViewBag.ThongBao = "Tên NCC đã tồn tại";
+                return View();
+            }
             db.NhaCungCaps.Add(_NhaCungCap);
             db.SaveChanges();
             return RedirectToAction("Index");

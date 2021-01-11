@@ -73,12 +73,22 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="6" id="TenCot">
+                        <td colspan="6" id="ChuSo" class="btn btn-success"> Các Hình Thức Thanh Toán    </td>
+                    </tr>
+                    <tr>
+                        <td>
                             @using (Html.BeginForm("DatHang", "GioHang"))
                             {
-                                <input type="submit" class="btn btn-success" value="Thanh toán" />
+                                <input type="submit" class="btn btn-danger" value="Thanh toán MoMo" />
                             }
                         </td>
+                        <td>
+                            @using (Html.BeginForm("DatHangTaiCuaHang", "GioHang"))
+                            {
+                                <input type="submit" class="btn btn-warning" value="Thanh toán Tại Cửa Hàng " />
+                            }
+                        </td>
+
                     </tr>
                 </thead>
             </table>

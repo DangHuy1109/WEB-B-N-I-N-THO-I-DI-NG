@@ -245,10 +245,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="bin/WebsiteBanDienThoai.dll">
-      <publishTime>12/15/2020 00:15:29</publishTime>
+      <publishTime>12/30/2020 13:47:04</publishTime>
     </File>
     <File Include="bin/WebsiteBanDienThoai.pdb">
-      <publishTime>12/15/2020 00:15:29</publishTime>
+      <publishTime>12/30/2020 13:47:04</publishTime>
     </File>
     <File Include="blog/insta-1.jpg">
       <publishTime>11/20/2020 00:01:11</publishTime>
@@ -1207,8 +1207,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/DienThoai/XemChitiet.cshtml">
       <publishTime>11/26/2020 14:49:25</publishTime>
     </File>
+    <File Include="Views/GioHang/Camonquykhach.cshtml">
+      <publishTime>12/29/2020 23:41:45</publishTime>
+    </File>
     <File Include="Views/GioHang/GioHang.cshtml">
-      <publishTime>12/02/2020 11:22:12</publishTime>
+      <publishTime>12/16/2020 23:44:42</publishTime>
     </File>
     <File Include="Views/GioHang/GioHangPartial.cshtml">
       <publishTime>11/19/2020 00:27:16</publishTime>
@@ -1217,7 +1220,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/19/2020 00:26:29</publishTime>
     </File>
     <File Include="Views/GioHang/HoaDon.cshtml">
-      <publishTime>12/02/2020 13:48:52</publishTime>
+      <publishTime>12/28/2020 21:51:16</publishTime>
     </File>
     <File Include="Views/GioHang/SuaGioHang.cshtml">
       <publishTime>11/26/2020 14:28:31</publishTime>
@@ -1229,7 +1232,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/27/2020 00:14:22</publishTime>
     </File>
     <File Include="Views/LayOut/AdminLayout.cshtml">
-      <publishTime>11/27/2020 10:57:34</publishTime>
+      <publishTime>12/17/2020 22:43:06</publishTime>
     </File>
     <File Include="Views/LayOut/NguoiDungLayout.cshtml">
       <publishTime>12/08/2020 16:50:54</publishTime>
@@ -1271,10 +1274,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/19/2020 10:08:30</publishTime>
     </File>
     <File Include="Views/QuanLyDonHang/ChinhSua.cshtml">
-      <publishTime>11/19/2020 11:22:36</publishTime>
+      <publishTime>12/16/2020 23:09:32</publishTime>
+    </File>
+    <File Include="Views/QuanLyDonHang/HienThi.cshtml">
+      <publishTime>12/24/2020 00:03:53</publishTime>
     </File>
     <File Include="Views/QuanLyDonHang/Index.cshtml">
-      <publishTime>11/27/2020 00:31:42</publishTime>
+      <publishTime>12/24/2020 00:03:56</publishTime>
+    </File>
+    <File Include="Views/QuanLyDonHang/Xoa.cshtml">
+      <publishTime>12/17/2020 01:42:54</publishTime>
     </File>
     <File Include="Views/QuanLyLoai/ChinhSua.cshtml">
       <publishTime>11/26/2020 01:03:30</publishTime>
@@ -1358,7 +1367,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/18/2020 15:16:59</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/15/2020 00:15:29</publishTime>
+      <publishTime>12/30/2020 13:47:05</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -6,10 +6,11 @@
 }
 
 <h2>Thông tin của Chủ đề</h2>
-
+<h1 id="CanhBao">@ViewBag.ThongBao</h1>
 @using (Html.BeginForm("ThemMoi", "QuanLyLoai", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
 
     <div class="form-horizontal">
         <hr />

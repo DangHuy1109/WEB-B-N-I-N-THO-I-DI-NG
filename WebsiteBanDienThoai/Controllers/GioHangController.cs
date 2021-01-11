@@ -289,9 +289,9 @@ namespace WebSiteBanSach.Controllers
             string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
             JObject jmessage = JObject.Parse(responseFromMomo);
             return Redirect(jmessage.GetValue("payUrl").ToString());
-        //mômopay
-        
-    }
+            //mômopay
+
+        }
 
         public ActionResult HoaDon()
         {
